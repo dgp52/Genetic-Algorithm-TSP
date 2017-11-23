@@ -20,6 +20,7 @@ public class Main extends Application{
 		try {
 			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("view/GeneticAlgoTSP.fxml"));
 			Scene scene = new Scene(root);
+			scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Genetic Algorithm TSP");
 			primaryStage.setResizable(false);
