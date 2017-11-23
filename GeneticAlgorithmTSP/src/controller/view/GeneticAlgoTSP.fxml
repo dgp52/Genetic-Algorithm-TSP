@@ -13,16 +13,16 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GeneticAlgoTSPController">
    <center>
-      <SplitPane dividerPositions="0.5234113712374582" prefHeight="300.0" prefWidth="628.0" styleClass="background" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.5234113712374582" prefHeight="300.0" prefWidth="600.0" styleClass="background" BorderPane.alignment="CENTER">
         <items>
-          <AnchorPane fx:id="bparent" minHeight="0.0" minWidth="310.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane fx:id="bparent" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-               	<Canvas fx:id="brutecanvas" height="259.0" styleClass="background" width="200.0" />
+               	<Canvas fx:id="brutecanvas" height="259.0" styleClass="background" width="300.0" />
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="310.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane fx:id="gparent" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <Canvas height="200.0" width="200.0" />
+                  <Canvas fx:id="geneticcanvas" height="200.0" width="300.0" />
                </children>
             </AnchorPane>
         </items>
