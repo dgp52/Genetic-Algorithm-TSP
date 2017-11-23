@@ -61,7 +61,7 @@
             </SplitPane>
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button alignment="CENTER" mnemonicParsing="false" text="Button" />
+                <Button fx:id="btn" onAction="#handle" alignment="CENTER" mnemonicParsing="false" text="Button" />
               </buttons>
                <VBox.margin>
                   <Insets right="20.0" />
