@@ -16,22 +16,24 @@ public class Points {
 		points.add(point);
 	}
 	
-	public double[] getAllx() {
-		double x[] = new double[points.size()];
-		for(int i =0; i < x.length; i++) {
-			Point p = points.get(i);
-			x[i] = p.getX()+GeneticAlgoTSPController.DRAW_CENTER;
+	public Point getLastPoint() {
+		Point p;
+		if(points.size() > 0) {
+			p = points.get(points.size()-1);
+		} else {
+			p = null;
 		}
-		return x;
+		return p;
 	}
 	
-	public double[] getAlly() {
-		double y[] = new double[points.size()];
-		for(int i =0; i < y.length; i++) {
-			Point p = points.get(i);
-			y[i] = p.getY()+GeneticAlgoTSPController.DRAW_CENTER;
+	public Point getSecondLastPoint() {
+		Point p;
+		if(points.size() > 1) {
+			p = points.get(points.size()-2);
+		} else {
+			p = null;
 		}
-		return y;
+		return p;
 	}
 	
 	public int getSize() {

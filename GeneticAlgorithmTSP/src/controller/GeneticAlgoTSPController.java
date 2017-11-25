@@ -42,7 +42,8 @@ public class GeneticAlgoTSPController {
             	points.addPoint(new Point(event.getX()-DRAW_CENTER, event.getY()-DRAW_CENTER));
         		drawBrute(brutegc,new Point(event.getX()-DRAW_CENTER, event.getY()-DRAW_CENTER));
         		drawGenetic(geneticgc,new Point(event.getX()-DRAW_CENTER, event.getY()-DRAW_CENTER));
-        		drawPath();
+        		
+        		drawALine(brutegc);
             }
         });
 	}
@@ -72,10 +73,22 @@ public class GeneticAlgoTSPController {
 	    gc.fillOval(point.getX(),point.getY(), 10, 10);
 	}
 	
-	private void drawPath() {
-		brutegc.strokePolyline(points.getAllx(), points.getAlly(), points.getSize());
+	public void drawALine(GraphicsContext gc) {
+		if(points.getSize() > 1) {
+			Point pLast = points.getLastPoint();
+			Point pSecondLast = points.getSecondLastPoint();
+			
+			double xVal[] = new double[2];
+			xVal[0] = pSecondLast.getX()+DRAW_CENTER;
+			xVal[1] = pLast.getX()+DRAW_CENTER;
+			
+			double yVal[] = new double[2];
+			yVal[0] = pSecondLast.getY()+DRAW_CENTER;
+			yVal[1] = pLast.getY()+DRAW_CENTER;
+			
+			brutegc.strokePolyline(xVal, yVal, 2);
+		}
 	}
-	
 	 private void drawGenetic(GraphicsContext gc, Point point) {
 	    gc.setFill(Color.WHITE);
 	    gc.fillOval(point.getX(), point.getY(), 10, 10);
