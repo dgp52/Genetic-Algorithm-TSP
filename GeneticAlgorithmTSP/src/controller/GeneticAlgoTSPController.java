@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import model.Point;
 import model.Points;
 public class GeneticAlgoTSPController {
@@ -40,10 +39,12 @@ public class GeneticAlgoTSPController {
             @Override
             public void handle(MouseEvent event) {
             	points.addPoint(new Point(event.getX()-DRAW_CENTER, event.getY()-DRAW_CENTER));
-        		drawBrute(brutegc,new Point(event.getX()-DRAW_CENTER, event.getY()-DRAW_CENTER));
-        		drawGenetic(geneticgc,new Point(event.getX()-DRAW_CENTER, event.getY()-DRAW_CENTER));
+            	
+        		drawBrute(brutegc,new Point(points.getLastPoint().getX(),points.getLastPoint().getY()));
+        		drawGenetic(geneticgc,new Point(points.getLastPoint().getX(),points.getLastPoint().getY()));
         		
         		drawALine(brutegc);
+        		drawALine(geneticgc);
             }
         });
 	}
@@ -73,6 +74,13 @@ public class GeneticAlgoTSPController {
 	    gc.fillOval(point.getX(),point.getY(), 10, 10);
 	}
 	
+	private void drawGenetic(GraphicsContext gc, Point point) {
+	    gc.setFill(Color.WHITE);
+	    gc.setStroke(Color.WHITE);
+	    gc.setLineWidth(3);
+	    gc.fillOval(point.getX(), point.getY(), 10, 10);
+	}
+	
 	public void drawALine(GraphicsContext gc) {
 		if(points.getSize() > 1) {
 			Point pLast = points.getLastPoint();
@@ -86,12 +94,8 @@ public class GeneticAlgoTSPController {
 			yVal[0] = pSecondLast.getY()+DRAW_CENTER;
 			yVal[1] = pLast.getY()+DRAW_CENTER;
 			
-			brutegc.strokePolyline(xVal, yVal, 2);
+			gc.strokePolyline(xVal, yVal, 2);
 		}
-	}
-	 private void drawGenetic(GraphicsContext gc, Point point) {
-	    gc.setFill(Color.WHITE);
-	    gc.fillOval(point.getX(), point.getY(), 10, 10);
 	}
 	 
 	 public void handle(ActionEvent handler) throws IOException, NoSuchAlgorithmException {
@@ -100,5 +104,4 @@ public class GeneticAlgoTSPController {
 			points.printPoints();
 		}
 	 }
-
 }

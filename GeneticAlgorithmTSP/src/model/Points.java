@@ -3,8 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.GeneticAlgoTSPController;
-
 public class Points {
 	private List<Point> points;
 	
