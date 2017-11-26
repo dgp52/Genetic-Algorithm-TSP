@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Points {
 	private List<Point> points;
-	
+
 	public Points() {
 		points = new ArrayList<>();
 	}
@@ -43,6 +43,10 @@ public class Points {
 			System.out.print("("+p.toString()+")");
 		}
 		System.out.println("");
+	}
+	
+	public List<Point> getPoints() {
+		return points;
 	}
 
 }

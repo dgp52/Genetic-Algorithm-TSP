@@ -4,6 +4,7 @@ package controller;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,7 +21,9 @@ public class GeneticAlgoTSPController {
 	private Points points;
 	private GraphicsContext brutegc, geneticgc;
 	public static final int DRAW_CENTER = 5;
-	
+	private AnimationTimer timer;
+	private int count = 0;
+
 	@FXML
 	Canvas brutecanvas, geneticcanvas;
 	
@@ -28,7 +31,7 @@ public class GeneticAlgoTSPController {
 	AnchorPane bparent, gparent;
 	
 	@FXML
-	Button btn;
+	Button btn, startalgo;
 	
 	@FXML
 	protected void initialize() {
@@ -38,15 +41,27 @@ public class GeneticAlgoTSPController {
 		brutecanvas.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event) {
-            	points.addPoint(new Point(event.getX()-DRAW_CENTER, event.getY()-DRAW_CENTER));
             	
-        		drawBrute(brutegc,new Point(points.getLastPoint().getX(),points.getLastPoint().getY()));
-        		drawGenetic(geneticgc,new Point(points.getLastPoint().getX(),points.getLastPoint().getY()));
-        		
+            /*Enable start btn if two points are on canvas. Therefore, in order to 
+        	start the algorithm you must have at least two points.*/
+            	if(points.getSize() >= 1) {
+            		startalgo.setDisable(false);
+            	}
+            	
+            	points.addPoint(new Point(event.getX()-DRAW_CENTER, event.getY()-DRAW_CENTER));
+            	drawBruteGeneticPoints(Color.WHITE);
         		drawALine(brutegc);
         		drawALine(geneticgc);
             }
         });
+		timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+            	drawBruteGeneticPoints(Color.BLACK);
+        		drawALine(brutegc);
+        		drawALine(geneticgc);
+            }
+        };
 	}
 	
 	private void initializePoints() {
@@ -67,16 +82,21 @@ public class GeneticAlgoTSPController {
 		geneticcanvas.heightProperty().bind(gparent.heightProperty()); 
 	}
 	
-	private void drawBrute(GraphicsContext gc, Point point) {
-	    gc.setFill(Color.WHITE);
-	    gc.setStroke(Color.WHITE);
+	private void drawBruteGeneticPoints(Color c) {
+		drawBrute(brutegc,new Point(points.getLastPoint().getX(),points.getLastPoint().getY()),c);
+		drawGenetic(geneticgc,new Point(points.getLastPoint().getX(),points.getLastPoint().getY()),c);
+	}
+	
+	private void drawBrute(GraphicsContext gc, Point point, Color c) {
+	    gc.setFill(c);
+	    gc.setStroke(c);
 	    gc.setLineWidth(3);
 	    gc.fillOval(point.getX(),point.getY(), 10, 10);
 	}
 	
-	private void drawGenetic(GraphicsContext gc, Point point) {
-	    gc.setFill(Color.WHITE);
-	    gc.setStroke(Color.WHITE);
+	private void drawGenetic(GraphicsContext gc, Point point, Color c) {
+	    gc.setFill(c);
+	    gc.setStroke(c);
 	    gc.setLineWidth(3);
 	    gc.fillOval(point.getX(), point.getY(), 10, 10);
 	}
@@ -101,7 +121,43 @@ public class GeneticAlgoTSPController {
 	 public void handle(ActionEvent handler) throws IOException, NoSuchAlgorithmException {
 		Button b = (Button) handler.getSource();
 		if (b == btn) {
-			points.printPoints();
+			//points.printPoints();
+	        //timer.start();
+		} else if(b == startalgo) {
+			//Get all points and convert it to an array of double
+			Point p[] = new Point[points.getSize()];
+			p = points.getPoints().toArray(p);
+			
+			runBruteForce(p);
+			System.out.println(count);
 		}
 	 }
+	 
+	 public void runBruteForce(Point[] arr){
+		    bruteForce(arr, 0);
+	 }
+	 
+	 //Need to move this method to a new thread
+	private void bruteForce(Point[] arr, int index){
+	    if(index >= arr.length - 1){
+	        for(int i = 0; i < arr.length - 1; i++){
+	            System.out.print(arr[i] + ", ");
+	        }
+	        if(arr.length > 0) {
+	            System.out.print(arr[arr.length - 1]);
+	        }
+	        count++;
+	        return;
+	    }
+	
+	    for(int i = index; i < arr.length; i++){
+	        Point t = arr[index];
+	        arr[index] = arr[i];
+	        arr[i] = t;
+	        bruteForce(arr, index+1);
+	        t = arr[index];
+	        arr[index] = arr[i];
+	        arr[i] = t;
+	    }
+	}
 }
