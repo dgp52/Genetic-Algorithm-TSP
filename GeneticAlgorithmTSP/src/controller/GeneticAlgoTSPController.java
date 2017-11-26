@@ -134,19 +134,27 @@ public class GeneticAlgoTSPController {
 	 }
 	 
 	 public void runBruteForce(Point[] arr){
-		    bruteForce(arr, 0);
+		 Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				 bruteForce(arr, 0);
+			}
+		};
+		Thread thread = new Thread(runnable);
+		thread.start();
 	 }
 	 
 	 //Need to move this method to a new thread
 	private void bruteForce(Point[] arr, int index){
 	    if(index >= arr.length - 1){
+	    	count++;
 	        for(int i = 0; i < arr.length - 1; i++){
 	            System.out.print(arr[i] + ", ");
 	        }
 	        if(arr.length > 0) {
 	            System.out.print(arr[arr.length - 1]);
 	        }
-	        count++;
+	        System.out.println(" " + count);
 	        return;
 	    }
 	
