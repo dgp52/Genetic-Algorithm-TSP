@@ -27,7 +27,7 @@ public class Point {
 
 	@Override
 	public String toString() {
-		return String.valueOf(x)+","+String.valueOf(y);
+		return "(" + String.valueOf(x)+","+String.valueOf(y) + ") ";
 	}
 
 }
