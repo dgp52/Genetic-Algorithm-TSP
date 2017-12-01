@@ -62,7 +62,8 @@
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
                 <Button fx:id="btn" alignment="CENTER" mnemonicParsing="false" onAction="#handle" text="Show" />
-                  <Button fx:id="startalgo" disable="true" onAction="#handle" mnemonicParsing="false" text="Start" />
+                  <Button fx:id="startalgo" disable="true" mnemonicParsing="false" onAction="#handle" text="Start" />
+                  <Button fx:id="clearbtn" alignment="CENTER"  mnemonicParsing="false" onAction="#handle" text="Clear" />
               </buttons>
                <VBox.margin>
                   <Insets right="20.0" />

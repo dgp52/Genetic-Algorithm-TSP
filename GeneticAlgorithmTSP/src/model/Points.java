@@ -48,5 +48,9 @@ public class Points {
 	public List<Point> getPoints() {
 		return points;
 	}
+	
+	public void clearPoints() {
+		points.clear();
+	}
 
 }

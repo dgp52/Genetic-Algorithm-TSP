@@ -3,12 +3,17 @@ package controller;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -36,7 +41,7 @@ public class GeneticAlgoTSPController {
 	AnchorPane bparent, gparent;
 	
 	@FXML
-	Button btn, startalgo;
+	Button btn, startalgo, clearbtn;
 	
 	@FXML
 	protected void initialize() {
@@ -135,12 +140,16 @@ public class GeneticAlgoTSPController {
 			p = points.getPoints().toArray(p);
 			
 			runBruteForce(p);
+		} else if (b == clearbtn) {
+        	brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight());
+        	points.clearPoints();
 		}
 	 }
 	 
 	 public void runBruteForce(Point[] arr){
 
  		bruteForce(arr, 0);
+ 		System.out.println("Done!");
 //		 Runnable runnable = new Runnable() {
 //			@Override
 //			public void run() {
@@ -187,17 +196,26 @@ public class GeneticAlgoTSPController {
 //			        }
 //			    });
 	        
-	        Task<Void> task = new Task<Void>() {
-                @Override 
-                public Void call() throws Exception {
-                	brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
-
-			    	brutegc.strokePolyline(xVal, yVal, points.getSize());
-                    return null ;
-                }
-            };
-            new Thread(task).start();
-//	        
+//	        Task<Void> task = new Task<Void>() {
+//                @Override 
+//                public Void call() throws Exception {
+//                	brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
+//
+//			    	brutegc.strokePolyline(xVal, yVal, points.getSize());
+//                    return null ;
+//                }
+//            };
+//            new Thread(task).start();
+            
+	        
+	        new AnimationTimer() {
+	            @Override
+	            public void handle(long now) {
+	            	brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
+		        	brutegc.strokePolyline(xVal, yVal, points.getSize());
+	            }
+	        }.start();
+	        
 //	        for (Point temp : p) {
 //	            System.out.print(temp);
 //	        }
