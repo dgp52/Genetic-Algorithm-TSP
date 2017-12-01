@@ -178,26 +178,26 @@ public class GeneticAlgoTSPController {
 	        }
 	 
 	        
-	        Platform.runLater(new Runnable() {
-			    @Override
-			        public void run() {
-			        brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
-
-			    	brutegc.strokePolyline(xVal, yVal, points.getSize());
-			        }
-			    });
-	        
-//	        Task<Void> task = new Task<Void>() {
-//                @Override 
-//                public Void call() throws Exception {
-//                	brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
+//	        Platform.runLater(new Runnable() {
+//			    @Override
+//			        public void run() {
+//			        brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
 //
 //			    	brutegc.strokePolyline(xVal, yVal, points.getSize());
-//                    return null ;
-//                }
-//            };
-//            new Thread(task).start();
-////	        
+//			        }
+//			    });
+	        
+	        Task<Void> task = new Task<Void>() {
+                @Override 
+                public Void call() throws Exception {
+                	brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
+
+			    	brutegc.strokePolyline(xVal, yVal, points.getSize());
+                    return null ;
+                }
+            };
+            new Thread(task).start();
+//	        
 //	        for (Point temp : p) {
 //	            System.out.print(temp);
 //	        }
