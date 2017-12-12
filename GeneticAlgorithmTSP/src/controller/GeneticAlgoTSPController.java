@@ -1,7 +1,11 @@
 package controller;
 
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -32,6 +36,9 @@ public class GeneticAlgoTSPController {
 	private GraphicsContext brutegc, geneticgc, brutePointGC;
 	public static final int DRAW_CENTER = 5;
 	private List<Point> p = new ArrayList<>();
+	
+	private BufferedWriter output = null;
+    private File file =  null;
 
 	@FXML
 	Canvas brutecanvas, geneticcanvas;
@@ -137,6 +144,13 @@ public class GeneticAlgoTSPController {
 	 }
 	 
 	 public void runBruteForce(Point[] arr){
+		try {
+			output = new BufferedWriter(new FileWriter(file));
+			file = new File("data/permutations.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
  		bruteForce(arr, 0);
 	 }
 	 
@@ -149,31 +163,34 @@ public class GeneticAlgoTSPController {
 	            p.add(arr[arr.length - 1]);
 	        }
 	        
+	        System.out.println(p);
+	        
 	        //Draw the Path
-	        double xVal[] = new double[p.size()];
-	        for(int i =0; i < points.getSize(); i++) {
-	        	Point xp = p.get(i);
-	        	xVal[i] = xp.getX()+DRAW_CENTER;
-	        }
+//	        double xVal[] = new double[p.size()];
+//	        for(int i =0; i < points.getSize(); i++) {
+//	        	Point xp = p.get(i);
+//	        	xVal[i] = xp.getX()+DRAW_CENTER;
+//	        }
+//	        
+//	        double yVal[] = new double[p.size()];
+//	        for(int i =0; i < points.getSize(); i++) {
+//	        	Point yp = p.get(i);
+//	        	yVal[i] = yp.getY()+DRAW_CENTER;
+//	        }
 	        
-	        double yVal[] = new double[p.size()];
-	        for(int i =0; i < points.getSize(); i++) {
-	        	Point yp = p.get(i);
-	        	yVal[i] = yp.getY()+DRAW_CENTER;
-	        }
-	 
-	        System.out.println(Arrays.toString(xVal));
-	        System.out.println(Arrays.toString(yVal));
-
-	        new AnimationTimer() {
-	            @Override
-	            public void handle(long now) {
-	            	brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
-		        	brutegc.strokePolyline(xVal, yVal, points.getSize());
-	            }
-	        }.start();
-	        
-	        
+	        //Write all the permutations to a file
+//	        try {
+//	            output.write();
+//	        } catch ( IOException e ) {
+//	            e.printStackTrace();
+//	        } finally {
+//	          if ( output != null ) {
+//	            output.close();
+//	          }
+//	        }
+//	 
+	        //brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
+		    //brutegc.strokePolyline(xVal, yVal, points.getSize());
 	        return;
 	    }
 	
