@@ -138,28 +138,6 @@ public class GeneticAlgoTSPController {
 	 
 	 public void runBruteForce(Point[] arr){
  		bruteForce(arr, 0);
- 		System.out.println("Done!");
- 		
- 		//Draw the Path
-        double xVal[] = new double[points.getSize()];
-        for(int i =0; i < points.getSize(); i++) {
-        	Point xp = p.get(i);
-        	xVal[i] = xp.getX()+DRAW_CENTER;
-        }
-        
-        double yVal[] = new double[points.getSize()];
-        for(int i =0; i < points.getSize(); i++) {
-        	Point yp = p.get(i);
-        	yVal[i] = yp.getY()+DRAW_CENTER;
-        }
- 
-        new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-            	brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
-	        	brutegc.strokePolyline(xVal, yVal, points.getSize());
-            }
-        }.start();
 	 }
 	 
 	private void bruteForce(Point[] arr, int index){
@@ -170,6 +148,32 @@ public class GeneticAlgoTSPController {
 	        if(arr.length > 0) {
 	            p.add(arr[arr.length - 1]);
 	        }
+	        
+	        //Draw the Path
+	        double xVal[] = new double[p.size()];
+	        for(int i =0; i < points.getSize(); i++) {
+	        	Point xp = p.get(i);
+	        	xVal[i] = xp.getX()+DRAW_CENTER;
+	        }
+	        
+	        double yVal[] = new double[p.size()];
+	        for(int i =0; i < points.getSize(); i++) {
+	        	Point yp = p.get(i);
+	        	yVal[i] = yp.getY()+DRAW_CENTER;
+	        }
+	 
+	        System.out.println(Arrays.toString(xVal));
+	        System.out.println(Arrays.toString(yVal));
+
+	        new AnimationTimer() {
+	            @Override
+	            public void handle(long now) {
+	            	brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
+		        	brutegc.strokePolyline(xVal, yVal, points.getSize());
+	            }
+	        }.start();
+	        
+	        
 	        return;
 	    }
 	
