@@ -31,8 +31,7 @@ public class GeneticAlgoTSPController {
 	private Points points;
 	private GraphicsContext brutegc, geneticgc, brutePointGC;
 	public static final int DRAW_CENTER = 5;
-	private AnimationTimer timer;
-	private int count = 0;
+	private List<Point> p = new ArrayList<>();
 
 	@FXML
 	Canvas brutecanvas, geneticcanvas;
@@ -60,18 +59,11 @@ public class GeneticAlgoTSPController {
             	
             	points.addPoint(new Point(event.getX()-DRAW_CENTER, event.getY()-DRAW_CENTER));
             	drawBruteGeneticPoints(Color.WHITE);
-        		//drawALine(brutegc);
-        		//drawALine(geneticgc);
-            }
-        });
-		timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-            	drawBruteGeneticPoints(Color.BLACK);
+            	
         		drawALine(brutegc);
         		drawALine(geneticgc);
             }
-        };
+        });
 	}
 	
 	private void initializePoints() {
@@ -132,8 +124,6 @@ public class GeneticAlgoTSPController {
 	 public void handle(ActionEvent handler) throws IOException, NoSuchAlgorithmException {
 		Button b = (Button) handler.getSource();
 		if (b == btn) {
-			//points.printPoints();
-	        //timer.start();
 		} else if(b == startalgo) {
 			//Get all points and convert it to an array of double
 			Point p[] = new Point[points.getSize()];
@@ -147,80 +137,39 @@ public class GeneticAlgoTSPController {
 	 }
 	 
 	 public void runBruteForce(Point[] arr){
-
  		bruteForce(arr, 0);
  		System.out.println("Done!");
-//		 Runnable runnable = new Runnable() {
-//			@Override
-//			public void run() {
-//				 
-//			}
-//		};
-//		Thread thread = new Thread(runnable);
-//		thread.start();
-		 
+ 		
+ 		//Draw the Path
+        double xVal[] = new double[points.getSize()];
+        for(int i =0; i < points.getSize(); i++) {
+        	Point xp = p.get(i);
+        	xVal[i] = xp.getX()+DRAW_CENTER;
+        }
+        
+        double yVal[] = new double[points.getSize()];
+        for(int i =0; i < points.getSize(); i++) {
+        	Point yp = p.get(i);
+        	yVal[i] = yp.getY()+DRAW_CENTER;
+        }
+ 
+        new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+            	brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
+	        	brutegc.strokePolyline(xVal, yVal, points.getSize());
+            }
+        }.start();
 	 }
 	 
-	 //Need to move this method to a new thread
 	private void bruteForce(Point[] arr, int index){
 	    if(index >= arr.length - 1){
-	    	count++;
-	    	List<Point> p = new ArrayList<>();
 	        for(int i = 0; i < arr.length - 1; i++){
 	            p.add(arr[i]);
 	        }
 	        if(arr.length > 0) {
 	            p.add(arr[arr.length - 1]);
 	        }
-	        
-	        //Draw the Path
-	        double xVal[] = new double[points.getSize()];
-	        for(int i =0; i < points.getSize(); i++) {
-	        	Point xp = p.get(i);
-	        	xVal[i] = xp.getX()+DRAW_CENTER;
-	        }
-	        
-	        double yVal[] = new double[points.getSize()];
-	        for(int i =0; i < points.getSize(); i++) {
-	        	Point yp = p.get(i);
-	        	yVal[i] = yp.getY()+DRAW_CENTER;
-	        }
-	 
-	        
-//	        Platform.runLater(new Runnable() {
-//			    @Override
-//			        public void run() {
-//			        brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
-//
-//			    	brutegc.strokePolyline(xVal, yVal, points.getSize());
-//			        }
-//			    });
-	        
-//	        Task<Void> task = new Task<Void>() {
-//                @Override 
-//                public Void call() throws Exception {
-//                	brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
-//
-//			    	brutegc.strokePolyline(xVal, yVal, points.getSize());
-//                    return null ;
-//                }
-//            };
-//            new Thread(task).start();
-            
-	        
-	        new AnimationTimer() {
-	            @Override
-	            public void handle(long now) {
-	            	brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
-		        	brutegc.strokePolyline(xVal, yVal, points.getSize());
-	            }
-	        }.start();
-	        
-//	        for (Point temp : p) {
-//	            System.out.print(temp);
-//	        }
-//	        System.out.println("");
-	        
 	        return;
 	    }
 	
