@@ -3,9 +3,11 @@ package controller;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -36,9 +38,8 @@ public class GeneticAlgoTSPController {
 	private GraphicsContext brutegc, geneticgc, brutePointGC;
 	public static final int DRAW_CENTER = 5;
 	private List<Point> p = new ArrayList<>();
-	
-	private BufferedWriter output = null;
-    private File file =  null;
+    private File file;
+    private PrintWriter fileWriter;
 
 	@FXML
 	Canvas brutecanvas, geneticcanvas;
@@ -144,14 +145,36 @@ public class GeneticAlgoTSPController {
 	 }
 	 
 	 public void runBruteForce(Point[] arr){
+		 boolean fileExist = true;
 		try {
-			output = new BufferedWriter(new FileWriter(file));
 			file = new File("data/permutations.txt");
+			fileExist = file.createNewFile();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		if(!fileExist) {
+			PrintWriter writer;
+			try {
+				writer = new PrintWriter(file);
+				writer.print("");
+				writer.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} 
+		
+		 try {
+			fileWriter = new PrintWriter(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
  		bruteForce(arr, 0);
+ 		fileWriter.close();
 	 }
 	 
 	private void bruteForce(Point[] arr, int index){
@@ -163,20 +186,16 @@ public class GeneticAlgoTSPController {
 	            p.add(arr[arr.length - 1]);
 	        }
 	        
-	        System.out.println(p);
+	        for(int i =0; i < points.getSize(); i++) {
+	        	Point xp = p.get(i);
+	        	fileWriter.print(xp.getX()+DRAW_CENTER + " ");
+	        }
 	        
-	        //Draw the Path
-//	        double xVal[] = new double[p.size()];
-//	        for(int i =0; i < points.getSize(); i++) {
-//	        	Point xp = p.get(i);
-//	        	xVal[i] = xp.getX()+DRAW_CENTER;
-//	        }
-//	        
-//	        double yVal[] = new double[p.size()];
-//	        for(int i =0; i < points.getSize(); i++) {
-//	        	Point yp = p.get(i);
-//	        	yVal[i] = yp.getY()+DRAW_CENTER;
-//	        }
+	        fileWriter.println("");
+	        for(int i =0; i < points.getSize(); i++) {
+	        	Point yp = p.get(i);
+	        	fileWriter.print(yp.getY()+DRAW_CENTER + " ");
+	        }
 	        
 	        //Write all the permutations to a file
 //	        try {
