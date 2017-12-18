@@ -144,35 +144,39 @@ public class GeneticAlgoTSPController {
 		}
 	 }
 	 
-	 public void runBruteForce(Point[] arr){
+	 public void createXFile() {
 		 boolean fileExist = true;
-		try {
-			file = new File("data/permutations.txt");
-			fileExist = file.createNewFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if(!fileExist) {
-			PrintWriter writer;
 			try {
-				writer = new PrintWriter(file);
-				writer.print("");
-				writer.close();
+				file = new File("data/xpermutations.txt");
+				fileExist = file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if(!fileExist) {
+				PrintWriter writer;
+				try {
+					writer = new PrintWriter(file);
+					writer.print("");
+					writer.close();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} 
+			
+			 try {
+				fileWriter = new PrintWriter(file);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} 
-		
-		 try {
-			fileWriter = new PrintWriter(file);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+	 }
+	 
+	 
+	 public void runBruteForce(Point[] arr){
+		createXFile();
  		bruteForce(arr, 0);
  		fileWriter.close();
 	 }
@@ -181,21 +185,25 @@ public class GeneticAlgoTSPController {
 	    if(index >= arr.length - 1){
 	        for(int i = 0; i < arr.length - 1; i++){
 	            p.add(arr[i]);
+		        fileWriter.print(arr[i].getX()+DRAW_CENTER + " ");
 	        }
 	        if(arr.length > 0) {
 	            p.add(arr[arr.length - 1]);
+	            fileWriter.print(arr[arr.length - 1].getX()+DRAW_CENTER + " ");
 	        }
 	        
-	        for(int i =0; i < points.getSize(); i++) {
-	        	Point xp = p.get(i);
-	        	fileWriter.print(xp.getX()+DRAW_CENTER + " ");
-	        }
+            fileWriter.println("");
 	        
-	        fileWriter.println("");
-	        for(int i =0; i < points.getSize(); i++) {
-	        	Point yp = p.get(i);
-	        	fileWriter.print(yp.getY()+DRAW_CENTER + " ");
-	        }
+//	        for(int i =0; i < points.getSize(); i++) {
+//	        	Point xp = p.get(i);
+//	        	fileWriter.print(xp.getX()+DRAW_CENTER + " ");
+//	        }
+//	        
+//	        fileWriter.println("");
+//	        for(int i =0; i < points.getSize(); i++) {
+//	        	Point yp = p.get(i);
+//	        	fileWriter.print(yp.getY()+DRAW_CENTER + " ");
+//	        }
 	        
 	        //Write all the permutations to a file
 //	        try {
