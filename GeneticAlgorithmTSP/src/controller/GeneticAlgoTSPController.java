@@ -39,7 +39,7 @@ public class GeneticAlgoTSPController {
 	public static final int DRAW_CENTER = 5;
 	private List<Point> p = new ArrayList<>();
     private File file;
-    private PrintWriter fileWriter;
+    private PrintWriter xFileWriter, yFileWriter;
 
 	@FXML
 	Canvas brutecanvas, geneticcanvas;
@@ -147,7 +147,7 @@ public class GeneticAlgoTSPController {
 	 public void createXFile() {
 		 boolean fileExist = true;
 			try {
-				file = new File("data/xpermutations.txt");
+				file = new File("data/xPermutations.txt");
 				fileExist = file.createNewFile();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -167,7 +167,37 @@ public class GeneticAlgoTSPController {
 			} 
 			
 			 try {
-				fileWriter = new PrintWriter(file);
+				 xFileWriter = new PrintWriter(file);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	 }
+	 
+	 public void createYFile() {
+		 boolean fileExist = true;
+			try {
+				file = new File("data/ypermutations.txt");
+				fileExist = file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if(!fileExist) {
+				PrintWriter writer;
+				try {
+					writer = new PrintWriter(file);
+					writer.print("");
+					writer.close();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} 
+			
+			 try {
+				 yFileWriter = new PrintWriter(file);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -177,22 +207,27 @@ public class GeneticAlgoTSPController {
 	 
 	 public void runBruteForce(Point[] arr){
 		createXFile();
+		createYFile();
  		bruteForce(arr, 0);
- 		fileWriter.close();
+ 		xFileWriter.close();
+ 		yFileWriter.close();
 	 }
 	 
 	private void bruteForce(Point[] arr, int index){
 	    if(index >= arr.length - 1){
 	        for(int i = 0; i < arr.length - 1; i++){
 	            p.add(arr[i]);
-		        fileWriter.print(arr[i].getX()+DRAW_CENTER + " ");
+	            xFileWriter.print(arr[i].getX()+DRAW_CENTER + " ");
+	            yFileWriter.print(arr[i].getY()+DRAW_CENTER + " ");
 	        }
 	        if(arr.length > 0) {
 	            p.add(arr[arr.length - 1]);
-	            fileWriter.print(arr[arr.length - 1].getX()+DRAW_CENTER + " ");
+	            xFileWriter.print(arr[arr.length - 1].getX()+DRAW_CENTER + " ");
+	            yFileWriter.print(arr[arr.length - 1].getY()+DRAW_CENTER + " ");
 	        }
 	        
-            fileWriter.println("");
+	        xFileWriter.println("");
+	        yFileWriter.println("");
 	        
 //	        for(int i =0; i < points.getSize(); i++) {
 //	        	Point xp = p.get(i);
