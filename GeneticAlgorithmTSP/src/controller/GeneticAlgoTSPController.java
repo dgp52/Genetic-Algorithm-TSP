@@ -7,12 +7,15 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
@@ -150,7 +153,6 @@ public class GeneticAlgoTSPController {
 				file = new File("data/xPermutations.txt");
 				fileExist = file.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -161,7 +163,6 @@ public class GeneticAlgoTSPController {
 					writer.print("");
 					writer.close();
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} 
@@ -169,7 +170,6 @@ public class GeneticAlgoTSPController {
 			 try {
 				 xFileWriter = new PrintWriter(file);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	 }
@@ -180,7 +180,6 @@ public class GeneticAlgoTSPController {
 				file = new File("data/ypermutations.txt");
 				fileExist = file.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -191,7 +190,6 @@ public class GeneticAlgoTSPController {
 					writer.print("");
 					writer.close();
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} 
@@ -199,7 +197,6 @@ public class GeneticAlgoTSPController {
 			 try {
 				 yFileWriter = new PrintWriter(file);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	 }
@@ -211,6 +208,22 @@ public class GeneticAlgoTSPController {
  		bruteForce(arr, 0);
  		xFileWriter.close();
  		yFileWriter.close();
+ 		draw();
+	 }
+	 
+	 private void draw () {
+		 Task<Void> task = new Task<Void>() {
+             @Override 
+             public Void call() throws Exception {
+//            	 try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
+//            	        stream.forEach(System.out::println);
+//            	}
+//            	 brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
+//            	 brutegc.strokePolyline(xVal, yVal, points.getSize());
+                 return null ;
+             }
+         };
+		new Thread(task).start();
 	 }
 	 
 	private void bruteForce(Point[] arr, int index){
@@ -228,31 +241,6 @@ public class GeneticAlgoTSPController {
 	        
 	        xFileWriter.println("");
 	        yFileWriter.println("");
-	        
-//	        for(int i =0; i < points.getSize(); i++) {
-//	        	Point xp = p.get(i);
-//	        	fileWriter.print(xp.getX()+DRAW_CENTER + " ");
-//	        }
-//	        
-//	        fileWriter.println("");
-//	        for(int i =0; i < points.getSize(); i++) {
-//	        	Point yp = p.get(i);
-//	        	fileWriter.print(yp.getY()+DRAW_CENTER + " ");
-//	        }
-	        
-	        //Write all the permutations to a file
-//	        try {
-//	            output.write();
-//	        } catch ( IOException e ) {
-//	            e.printStackTrace();
-//	        } finally {
-//	          if ( output != null ) {
-//	            output.close();
-//	          }
-//	        }
-//	 
-	        //brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
-		    //brutegc.strokePolyline(xVal, yVal, points.getSize());
 	        return;
 	    }
 	
