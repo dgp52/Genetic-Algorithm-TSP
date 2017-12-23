@@ -212,6 +212,8 @@ public class GeneticAlgoTSPController {
 		new Thread(task).start();
 	 }
 	 
+	 //TODO add a method to read the coordinates line by line then draw the line 
+	 
 	private void bruteForce(Point[] arr, int index){
 	    if(index >= arr.length - 1){
 	        for(int i = 0; i < arr.length - 1; i++){
