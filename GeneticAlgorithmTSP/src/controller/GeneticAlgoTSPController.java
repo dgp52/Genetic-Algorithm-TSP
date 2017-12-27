@@ -5,9 +5,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -197,13 +200,27 @@ public class GeneticAlgoTSPController {
  		draw();
 	 }
 	 
+	 private int factorial(int n){    
+		  if (n == 0) {   
+		    return 1;  
+		  } else  {  
+		    return(n * factorial(n-1)); 
+		  }
+	 }    
+	 
 	 private void draw () {
 		 Task<Void> task = new Task<Void>() {
              @Override 
              public Void call() throws Exception {
-//            	 try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-//            	        stream.forEach(System.out::println);
-//            	}
+            	 
+            	 int numPoints = factorial(points.getSize());
+            	 for(int i = 0; i < numPoints; i++) {
+            		 
+            	 }
+            	 
+//            	 try (Stream<String> lines = Files.lines(Paths.get("data/xPermutations.txt"))) {
+//            		    line32 = lines.skip(31).findFirst().get();
+//            		}
 //            	 brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight()); 
 //            	 brutegc.strokePolyline(xVal, yVal, points.getSize());
                  return null ;
