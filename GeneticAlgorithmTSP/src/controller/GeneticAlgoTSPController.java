@@ -16,6 +16,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -55,8 +56,8 @@ public class GeneticAlgoTSPController {
             @Override
             public void handle(MouseEvent event) {
             	
-            /*Enable start btn if two points are on canvas. Therefore, in order to 
-        	start the algorithm you must have at least two points.*/
+            /*Enable start btn if two points are on canvas. 
+             * Therefore, in order to start the algorithm you must have at least two points.*/
             	if(points.getSize() >= 1) {
             		startalgo.setDisable(false);
             	}
@@ -135,7 +136,9 @@ public class GeneticAlgoTSPController {
 			
 			runBruteForce(p);
 		} else if (b == clearbtn) {
+			//Clear Canvas
         	brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight());
+        	geneticgc.clearRect(0, 0, geneticcanvas.getWidth(), geneticcanvas.getHeight());
         	points.clearPoints();
 		}
 	 }

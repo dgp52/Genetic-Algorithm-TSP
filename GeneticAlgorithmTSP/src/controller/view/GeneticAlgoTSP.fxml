@@ -16,7 +16,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" stylesheets="@../application.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GeneticAlgoTSPController">
    <center>
-      <GridPane BorderPane.alignment="CENTER">
+      <GridPane hgap="5.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="307.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="307.0" />
@@ -42,9 +42,6 @@
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
             </AnchorPane>
             <AnchorPane fx:id="gparent" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
@@ -59,9 +56,6 @@
                      </children>
                   </StackPane>
                </children>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                <children>
