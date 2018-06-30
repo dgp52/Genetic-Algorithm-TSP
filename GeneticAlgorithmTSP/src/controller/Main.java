@@ -23,7 +23,8 @@ public class Main extends Application{
 			scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Genetic Algorithm TSP");
-			primaryStage.setResizable(false);
+			primaryStage.setResizable(true);
+			primaryStage.setMaximized(true);
 			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
