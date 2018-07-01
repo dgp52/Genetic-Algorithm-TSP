@@ -5,21 +5,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -34,6 +33,7 @@ public class GeneticAlgoTSPController {
 	private List<Point> p = new ArrayList<>();
     private File file;
     private PrintWriter xFileWriter, yFileWriter;
+    private ObservableList<Point> listPoints;
 
 	@FXML
 	Canvas brutecanvas, geneticcanvas;
@@ -45,7 +45,10 @@ public class GeneticAlgoTSPController {
 	Button btn, startalgo, clearbtn;
 	
 	@FXML
-	ListView pointsList;
+	ListView<Point> pointsList;
+	
+	@FXML
+	Label gPointCount, bPointCount;
 	
 	@FXML
 	protected void initialize() {
@@ -64,6 +67,14 @@ public class GeneticAlgoTSPController {
             	
             	points.addPoint(new Point(event.getX()-DRAW_CENTER, event.getY()-DRAW_CENTER));
             	drawBruteGeneticPoints(Color.WHITE);
+            	
+            	listPoints = FXCollections.observableList(points.getPoints());
+            	pointsList.setItems(listPoints);
+            	pointsList.getSelectionModel().select(points.getSize()-1);
+            	pointsList.scrollTo(points.getSize()-1);
+            	
+            	gPointCount.setText(String.valueOf(points.getSize()));
+            	bPointCount.setText(String.valueOf(points.getSize()));
             	
         		drawALine(brutegc);
         		drawALine(geneticgc);
@@ -140,6 +151,16 @@ public class GeneticAlgoTSPController {
         	brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight());
         	geneticgc.clearRect(0, 0, geneticcanvas.getWidth(), geneticcanvas.getHeight());
         	points.clearPoints();
+        	startalgo.setDisable(true);
+        	
+        	listPoints.clear();
+        	pointsList.getItems().clear();
+        	pointsList.getSelectionModel().clearSelection();
+        	listPoints = FXCollections.observableList(points.getPoints());
+        	pointsList.setItems(listPoints);
+        	
+        	gPointCount.setText("0");
+        	bPointCount.setText("0");
 		}
 	 }
 	 
