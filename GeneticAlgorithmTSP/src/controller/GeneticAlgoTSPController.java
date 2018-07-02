@@ -1,8 +1,5 @@
 package controller;
 
-
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
@@ -23,6 +20,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import model.CustomFile;
 import model.Point;
 import model.Points;
 public class GeneticAlgoTSPController {
@@ -31,8 +29,7 @@ public class GeneticAlgoTSPController {
 	private GraphicsContext brutegc, geneticgc, brutePointGC;
 	public static final int DRAW_CENTER = 5;
 	private List<Point> p = new ArrayList<>();
-    private File file;
-    private PrintWriter xFileWriter, yFileWriter;
+    private CustomFile xFile, yFile, allPoints;
     private ObservableList<Point> listPoints;
 
 	@FXML
@@ -145,6 +142,10 @@ public class GeneticAlgoTSPController {
 			Point p[] = new Point[points.getSize()];
 			p = points.getPoints().toArray(p);
 			
+			for (Point pp : p) {
+				System.out.println(pp.toString());
+			}
+			
 			runBruteForce(p);
 		} else if (b == clearbtn) {
 			//Clear Canvas
@@ -164,68 +165,14 @@ public class GeneticAlgoTSPController {
 		}
 	 }
 	 
-	 public void createXFile() {
-		 boolean fileExist = true;
-			try {
-				file = new File("data/xPermutations.txt");
-				fileExist = file.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			if(!fileExist) {
-				PrintWriter writer;
-				try {
-					writer = new PrintWriter(file);
-					writer.print("");
-					writer.close();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-			} 
-			
-			 try {
-				 xFileWriter = new PrintWriter(file);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-	 }
-	 
-	 public void createYFile() {
-		 boolean fileExist = true;
-			try {
-				file = new File("data/ypermutations.txt");
-				fileExist = file.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			if(!fileExist) {
-				PrintWriter writer;
-				try {
-					writer = new PrintWriter(file);
-					writer.print("");
-					writer.close();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-			} 
-			
-			 try {
-				 yFileWriter = new PrintWriter(file);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-	 }
-	 
-	 
 	 public void runBruteForce(Point[] arr){
-		createXFile();
-		createYFile();
+		 xFile = new CustomFile("data/xPermutation.txt");
+		 yFile = new CustomFile("data/yPermutation.txt");
+		 allPoints = new CustomFile("data/points.txt");
  		bruteForce(arr, 0);
- 		xFileWriter.close();
- 		yFileWriter.close();
- 		draw();
+ 		//xFileWriter.close();
+ 		//yFileWriter.close();
+ 		//draw();
 	 }
 	 
 	 private int factorial(int n){    
@@ -263,17 +210,19 @@ public class GeneticAlgoTSPController {
 	    if(index >= arr.length - 1){
 	        for(int i = 0; i < arr.length - 1; i++){
 	            p.add(arr[i]);
-	            xFileWriter.print(arr[i].getX()+DRAW_CENTER + " ");
-	            yFileWriter.print(arr[i].getY()+DRAW_CENTER + " ");
+	            xFile.write(arr[i].getX()+ " ");
+	            yFile.write(arr[i].getY()+ " ");
 	        }
 	        if(arr.length > 0) {
 	            p.add(arr[arr.length - 1]);
-	            xFileWriter.print(arr[arr.length - 1].getX()+DRAW_CENTER + " ");
-	            yFileWriter.print(arr[arr.length - 1].getY()+DRAW_CENTER + " ");
+	            allPoints.write(arr[arr.length-1].toString());
+	            xFile.write(arr[arr.length - 1].getX() + " ");
+	            yFile.write(arr[arr.length - 1].getY()+ " ");
 	        }
 	        
-	        xFileWriter.println("");
-	        yFileWriter.println("");
+	        allPoints.writeNewLine(); 
+	        xFile.writeNewLine();
+	        yFile.writeNewLine();
 	        return;
 	    }
 	
