@@ -1,29 +1,47 @@
 package model;
 
+import java.util.ArrayList;
+
 public class BruteForce {
 	
 	private Point[] points;
+	private  ArrayList<Point> individualPermutation; 
 	private int p;
+	private double shortestDistance;
 	
 	public BruteForce (Point[] points, int p) {
 		this.points = points;
 		this.p = p;
+		individualPermutation = new ArrayList<Point>();
 	}
 	
 	public void start () {
 		this.calculatePermutations(points, p);
 	}
-
+	
+	private double calculateTotalDistance(ArrayList<Point> points) {
+		double sum = 0.0;
+		for (int i = 0; i < individualPermutation.size(); i++) {
+			if(i <  individualPermutation.size() - 1) {
+				sum = sum + Math.hypot(points.get(i).getX()-points.get(i+1).getX(), 
+						points.get(i).getY()-points.get(i+1).getY());	
+			}
+		}
+		return sum;
+	}
+	
 	private void calculatePermutations(Point[] points, int p) {
 		if (p >= points.length - 1) {
-			System.out.print("[");
 			for (int i = 0; i < points.length - 1; i++) {
-				//other points
+				individualPermutation.add(points[i]);
 			}
 			if (points.length > 0) {
-				//last point
+				individualPermutation.add(points[points.length -1]);
 			}
-			//Calculate the distance between all the points 
+			
+			shortestDistance = calculateTotalDistance(individualPermutation);
+			System.out.println(shortestDistance);
+			individualPermutation.clear();
 			return;
 		}
 
