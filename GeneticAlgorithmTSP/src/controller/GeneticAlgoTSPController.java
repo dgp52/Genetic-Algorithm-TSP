@@ -1,14 +1,12 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -33,6 +31,8 @@ public class GeneticAlgoTSPController {
 	private List<Point> p = new ArrayList<>();
 	private CustomFile xFile, yFile, allPoints;
 	private ObservableList<Point> listPoints;
+	private Thread thread;
+	private BruteForce bruteForce;
 
 	@FXML
 	Canvas brutecanvas, geneticcanvas;
@@ -47,7 +47,7 @@ public class GeneticAlgoTSPController {
 	ListView<Point> pointsList;
 
 	@FXML
-	Label gPointCount, bPointCount;
+	Label gPointCount, bPointCount, bPercentage;
 
 	@FXML
 	protected void initialize() {
@@ -62,13 +62,16 @@ public class GeneticAlgoTSPController {
 				 * Enable start btn if two points are on canvas. Therefore, in order to start
 				 * the algorithm you must have at least two points.
 				 */
+
+				Color color = Color.WHITE;
 				if (points.getSize() >= 1) {
 					startalgo.setDisable(false);
+				} else {
+					color = Color.GOLD;					
 				}
-
 				points.addPoint(new Point(event.getX() - DRAW_CENTER, event.getY() - DRAW_CENTER));
-				drawBruteGeneticPoints(Color.WHITE);
-
+				drawBruteGeneticPoints(color);
+				
 				listPoints = FXCollections.observableList(points.getPoints());
 				pointsList.setItems(listPoints);
 				pointsList.getSelectionModel().select(points.getSize() - 1);
@@ -161,6 +164,9 @@ public class GeneticAlgoTSPController {
 
 			gPointCount.setText("0");
 			bPointCount.setText("0");
+			
+			//Stop the thread
+			bruteForce.setStop(true);
 		}
 	}
 
@@ -169,7 +175,9 @@ public class GeneticAlgoTSPController {
 		yFile = new CustomFile("data/yPermutation.txt");
 		allPoints = new CustomFile("data/points.txt");
 		
-		BruteForce bruteForce = new BruteForce(ps, 0);
-		bruteForce.start();
+		bruteForce = new BruteForce(ps, bPercentage);
+		thread = new Thread(bruteForce);
+		thread.setName("Brute Force");
+		thread.start();
 	}
 }
