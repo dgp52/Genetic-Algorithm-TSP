@@ -7,8 +7,11 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.paint.Color;
 
 public class BruteForce implements Runnable {
 
@@ -18,20 +21,28 @@ public class BruteForce implements Runnable {
 	private int counter, permutationsCounter = 0, p = 0;
 	private volatile boolean stop = false;
 	private ObservableList<Point> listPoints;
+	private GraphicsContext brutegc;
+	public static final int DRAW_CENTER = 5;
 
 	@FXML
-	Label bPercentage, bTime;
+	Label bPercentage, bTime, bd;
 	
 	@FXML
 	ListView<Point> bDistance;
+	
+	@FXML
+	Canvas canvas;
 
-	public BruteForce(Point[] points, Label label, Label btime, ListView<Point> bDistance) {
+	public BruteForce(Point[] points, Label label, Label btime, ListView<Point> bDistance, Canvas brutecanvas, Label bd) {
 		this.points = points;
 		this.counter = counter(points.length);
 		this.shortestPath = new ArrayList<Point>();
 		this.bPercentage = label;
 		this.bTime = btime;
 		this.bDistance = bDistance;
+		this.canvas = brutecanvas;
+		this.brutegc = brutecanvas.getGraphicsContext2D();
+		this.bd = bd;
 	}
 
 	public void start() {
@@ -44,13 +55,44 @@ public class BruteForce implements Runnable {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				bTime.setText(seconds + "s");
+				bTime.setText("S: " + seconds);
 				listPoints = FXCollections.observableList(shortestPath);
 				bDistance.setItems(listPoints);
+				bd.setText("D: " + shortestDistance);
+				brutegc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+			
+				for(int i = 0; i < shortestPath.size()-1; i++) {
+					drawBrute(brutegc, shortestPath.get(i), Color.GOLD);
+					drawALine(brutegc, shortestPath.get(i+1), shortestPath.get(i));
+				}
 			}
 		});
 		
 		stop = true;
+	}
+	
+	private void drawBrute(GraphicsContext gc, Point point, Color c) {
+		gc.setFill(c);
+		gc.setStroke(c);
+		gc.setLineWidth(3);
+		gc.fillOval(point.getX(), point.getY(), 10, 10);
+	}
+	
+	public void drawALine(GraphicsContext gc, Point last, Point secondLast) {
+		if (shortestPath.size() > 1) {
+			Point pLast = last;
+			Point pSecondLast = secondLast;
+
+			double xVal[] = new double[2];
+			xVal[0] = pSecondLast.getX() + DRAW_CENTER;
+			xVal[1] = pLast.getX() + DRAW_CENTER;
+
+			double yVal[] = new double[2];
+			yVal[0] = pSecondLast.getY() + DRAW_CENTER;
+			yVal[1] = pLast.getY() + DRAW_CENTER;
+
+			gc.strokePolyline(xVal, yVal, 2);
+		}
 	}
 
 	private double calculateTotalDistance(ArrayList<Point> points) {

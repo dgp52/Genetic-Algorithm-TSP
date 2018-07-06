@@ -47,7 +47,7 @@ public class GeneticAlgoTSPController {
 	ListView<Point> pointsList, bDistance;
 
 	@FXML
-	Label gPointCount, bPointCount, bPercentage, bTime, gTime;
+	Label gPointCount, bPointCount, bPercentage, gPercentage, bTime, gTime, bD, gd;
 
 	@FXML
 	protected void initialize() {
@@ -165,6 +165,7 @@ public class GeneticAlgoTSPController {
 			gPointCount.setText("0");
 			bPointCount.setText("0");
 			bTime.setText("");
+			bD.setText("");
 			
 			bDistance.getItems().clear();
 			bDistance.getSelectionModel().clearSelection();
@@ -181,7 +182,7 @@ public class GeneticAlgoTSPController {
 		yFile = new CustomFile("data/yPermutation.txt");
 		allPoints = new CustomFile("data/points.txt");
 		
-		bruteForce = new BruteForce(ps, bPercentage, bTime, bDistance);
+		bruteForce = new BruteForce(ps, bPercentage, bTime, bDistance, brutecanvas, bD);
 		thread = new Thread(bruteForce);
 		thread.setName("Brute Force");
 		thread.start();
