@@ -35,9 +35,14 @@
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="210.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="76.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <Label alignment="TOP_LEFT" contentDisplay="TOP" text="Brute Force Algorithm:" textAlignment="CENTER" textFill="WHITE">
@@ -45,12 +50,17 @@
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="bPointCount" alignment="TOP_LEFT" text="0" textFill="WHITE" GridPane.columnIndex="1">
+                              <Label fx:id="bPointCount" alignment="TOP_LEFT" text="0" textFill="WHITE" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="bPercentage" textFill="WHITE" GridPane.columnIndex="2">
+                              <Label fx:id="bPercentage" textFill="WHITE" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="bTime" textFill="WHITE" GridPane.rowIndex="3">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -74,9 +84,14 @@
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="184.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="103.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="103.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="103.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <Label alignment="TOP_LEFT" contentDisplay="TOP" text="Genetic Algorithm:" textAlignment="CENTER" textFill="WHITE">
@@ -84,12 +99,17 @@
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="gPointCount" text="0" textFill="WHITE" GridPane.columnIndex="1">
+                              <Label fx:id="gPointCount" text="0" textFill="WHITE" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="gPercentage" textFill="WHITE" GridPane.columnIndex="2">
+                              <Label fx:id="gPercentage" textFill="WHITE" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="gTime" textFill="WHITE" GridPane.rowIndex="3">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -117,9 +137,8 @@
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="43.0" minHeight="0.0" prefHeight="28.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="Brute Force Algorithm" underline="true">
@@ -139,6 +158,8 @@
                   <Button fx:id="btn" mnemonicParsing="false" onAction="#handle" text="Show" />
               </buttons>
             </ButtonBar>
+            <ListView fx:id="bDistance" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+            <ListView fx:id="gDistance" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </bottom>

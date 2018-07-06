@@ -1,37 +1,56 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 
 public class BruteForce implements Runnable {
 
 	private Point[] points;
-	private int p = 0;
 	private double shortestDistance = -1.0;
 	private ArrayList<Point> shortestPath;
-	private int counter;
-	private int permutationsCounter = 0;
+	private int counter, permutationsCounter = 0, p = 0;
 	private volatile boolean stop = false;
+	private ObservableList<Point> listPoints;
 
 	@FXML
-	Label bPercentage;
+	Label bPercentage, bTime;
+	
+	@FXML
+	ListView<Point> bDistance;
 
-	public BruteForce(Point[] points, Label label) {
+	public BruteForce(Point[] points, Label label, Label btime, ListView<Point> bDistance) {
 		this.points = points;
 		this.counter = counter(points.length);
 		this.shortestPath = new ArrayList<Point>();
 		this.bPercentage = label;
+		this.bTime = btime;
+		this.bDistance = bDistance;
 	}
 
 	public void start() {
+		long startTime = System.nanoTime();
 		this.calculatePermutations(points, p);
-		System.out.println("****" + shortestDistance);
-		for (Point pp : shortestPath) {
-			System.out.println(pp.toString());
-		}
+		long endTime = System.nanoTime();
+		long elapsedTime = endTime - startTime;
+		double seconds = (double)elapsedTime/1000000000.0;
+		
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				bTime.setText(seconds + "s");
+				listPoints = FXCollections.observableList(shortestPath);
+				bDistance.setItems(listPoints);
+			}
+		});
+		
+		stop = true;
 	}
 
 	private double calculateTotalDistance(ArrayList<Point> points) {
@@ -86,7 +105,6 @@ public class BruteForce implements Runnable {
 				shortestPath = (ArrayList<Point>) individualPermutation.clone();
 			}
 			
-			System.out.println(tempDistance);
 			individualPermutation.clear();
 			return;
 		}
@@ -124,7 +142,7 @@ public class BruteForce implements Runnable {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					bPercentage.setText("");
+					bPercentage.setText("%");
 				}
 			});
 		}

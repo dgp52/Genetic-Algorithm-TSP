@@ -44,10 +44,10 @@ public class GeneticAlgoTSPController {
 	Button btn, startalgo, clearbtn;
 
 	@FXML
-	ListView<Point> pointsList;
+	ListView<Point> pointsList, bDistance;
 
 	@FXML
-	Label gPointCount, bPointCount, bPercentage;
+	Label gPointCount, bPointCount, bPercentage, bTime, gTime;
 
 	@FXML
 	protected void initialize() {
@@ -77,8 +77,8 @@ public class GeneticAlgoTSPController {
 				pointsList.getSelectionModel().select(points.getSize() - 1);
 				pointsList.scrollTo(points.getSize() - 1);
 
-				gPointCount.setText(String.valueOf(points.getSize()));
-				bPointCount.setText(String.valueOf(points.getSize()));
+				gPointCount.setText("Points: " + String.valueOf(points.getSize()));
+				bPointCount.setText("Points: " + String.valueOf(points.getSize()));
 
 				drawALine(brutegc);
 				drawALine(geneticgc);
@@ -164,9 +164,15 @@ public class GeneticAlgoTSPController {
 
 			gPointCount.setText("0");
 			bPointCount.setText("0");
+			bTime.setText("");
+			
+			bDistance.getItems().clear();
+			bDistance.getSelectionModel().clearSelection();
 			
 			//Stop the thread
-			bruteForce.setStop(true);
+			if(bruteForce != null) {
+				bruteForce.setStop(true);	
+			}
 		}
 	}
 
@@ -175,7 +181,7 @@ public class GeneticAlgoTSPController {
 		yFile = new CustomFile("data/yPermutation.txt");
 		allPoints = new CustomFile("data/points.txt");
 		
-		bruteForce = new BruteForce(ps, bPercentage);
+		bruteForce = new BruteForce(ps, bPercentage, bTime, bDistance);
 		thread = new Thread(bruteForce);
 		thread.setName("Brute Force");
 		thread.start();
