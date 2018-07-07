@@ -55,10 +55,10 @@ public class BruteForce implements Runnable {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				bTime.setText("S: " + seconds);
+				bTime.setText("Seconds: " + seconds);
 				listPoints = FXCollections.observableList(shortestPath);
 				bDistance.setItems(listPoints);
-				bd.setText("D: " + shortestDistance);
+				bd.setText("Distance: " + shortestDistance);
 				brutegc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 			
 				for(int i = 0; i < shortestPath.size()-1; i++) {
@@ -121,7 +121,7 @@ public class BruteForce implements Runnable {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				bPercentage.setText(fPercentage + "%");
+				bPercentage.setText("Percentage: " + fPercentage + "%");
 			}
 		});
 
@@ -184,7 +184,7 @@ public class BruteForce implements Runnable {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					bPercentage.setText("%");
+					bPercentage.setText("Percentage: %");
 				}
 			});
 		}

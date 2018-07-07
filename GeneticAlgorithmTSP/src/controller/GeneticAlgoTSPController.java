@@ -41,7 +41,7 @@ public class GeneticAlgoTSPController {
 	AnchorPane bparent, gparent;
 
 	@FXML
-	Button btn, startalgo, clearbtn;
+	Button startalgo, clearbtn;
 
 	@FXML
 	ListView<Point> pointsList, bDistance;
@@ -143,8 +143,7 @@ public class GeneticAlgoTSPController {
 
 	public void handle(ActionEvent handler) throws IOException, NoSuchAlgorithmException {
 		Button b = (Button) handler.getSource();
-		if (b == btn) {
-		} else if (b == startalgo) {
+		if (b == startalgo) {
 			// Get all points and convert it to an array of double
 			Point p[] = new Point[points.getSize()];
 			p = points.getPoints().toArray(p);
