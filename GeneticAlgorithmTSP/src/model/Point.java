@@ -24,7 +24,7 @@ public class Point {
 	public void setY(double y) {
 		this.y = y;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "(" + String.valueOf(x)+","+String.valueOf(y) + ") ";

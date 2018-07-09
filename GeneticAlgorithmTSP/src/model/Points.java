@@ -6,6 +6,10 @@ import java.util.List;
 public class Points {
 	private List<Point> points;
 
+	private double fitnessValue;
+	private double distance ;
+
+
 	public Points() {
 		points = new ArrayList<>();
 	}
@@ -52,5 +56,43 @@ public class Points {
 	public void clearPoints() {
 		points.clear();
 	}
+	
+	public void calculateFitnessValue () {
+		double sum = 0.0;
+		for (int i = 0; i < points.size(); i++) {
+			if (i < points.size() - 1) {
+				sum = sum + Math.hypot(points.get(i).getX() - points.get(i + 1).getX(),
+						points.get(i).getY() - points.get(i + 1).getY());
+			}
+		}
+		
+		System.out.println(points);
+		distance = sum;
+		//Sum == 0 -> in case where distance/sum is zero.  
+		fitnessValue = ((double)1/(sum == 0 ? 1 : sum)) * 100;
+	}
+	
+	public void printFitnessValue () {
+		System.out.println(fitnessValue);
+	}
+	
+	public double getFitnessValue () {
+		return this.fitnessValue;
+	}
+	
+	public void setFitnessValue (double fv) {
+		this.fitnessValue = fv;
+	}
 
+	public double getDistance() {
+		return distance;
+	}
+	
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+	
+	public void setPoints(List<Point> points) {
+		this.points = points;
+	}
 }

@@ -20,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import model.BruteForce;
 import model.CustomFile;
+import model.GeneticAlgo;
 import model.Point;
 import model.Points;
 
@@ -41,7 +42,7 @@ public class GeneticAlgoTSPController {
 	AnchorPane bparent, gparent;
 
 	@FXML
-	Button startalgo, clearbtn;
+	Button startalgo, clearbtn, startalgg, clearbtng;
 
 	@FXML
 	ListView<Point> pointsList, bDistance;
@@ -66,12 +67,13 @@ public class GeneticAlgoTSPController {
 				Color color = Color.WHITE;
 				if (points.getSize() >= 1) {
 					startalgo.setDisable(false);
+					startalgg.setDisable(false);
 				} else {
-					color = Color.GOLD;					
+					color = Color.GOLD;
 				}
 				points.addPoint(new Point(event.getX() - DRAW_CENTER, event.getY() - DRAW_CENTER));
 				drawBruteGeneticPoints(color);
-				
+
 				listPoints = FXCollections.observableList(points.getPoints());
 				pointsList.setItems(listPoints);
 				pointsList.getSelectionModel().select(points.getSize() - 1);
@@ -124,7 +126,7 @@ public class GeneticAlgoTSPController {
 		gc.fillOval(point.getX(), point.getY(), 10, 10);
 	}
 
-	public void drawALine(GraphicsContext gc) {
+	private void drawALine(GraphicsContext gc) {
 		if (points.getSize() > 1) {
 			Point pLast = points.getLastPoint();
 			Point pSecondLast = points.getSecondLastPoint();
@@ -149,38 +151,49 @@ public class GeneticAlgoTSPController {
 			p = points.getPoints().toArray(p);
 			runBruteForce(p);
 		} else if (b == clearbtn) {
-			// Clear Canvas
-			brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight());
-			geneticgc.clearRect(0, 0, geneticcanvas.getWidth(), geneticcanvas.getHeight());
-			points.clearPoints();
-			startalgo.setDisable(true);
+			clear();
 
-			listPoints.clear();
-			pointsList.getItems().clear();
-			pointsList.getSelectionModel().clearSelection();
-			listPoints = FXCollections.observableList(points.getPoints());
-			pointsList.setItems(listPoints);
-
-			gPointCount.setText("0");
-			bPointCount.setText("0");
-			bTime.setText("");
-			bD.setText("");
-			
-			bDistance.getItems().clear();
-			bDistance.getSelectionModel().clearSelection();
-			
-			//Stop the thread
-			if(bruteForce != null) {
-				bruteForce.setStop(true);	
+			// Stop the thread
+			if (bruteForce != null) {
+				bruteForce.setStop(true);
 			}
+		} else if (b == startalgg) {			
+			GeneticAlgo ga = new GeneticAlgo(points.getPoints(),100);
+			ga.start();
+			
+		} else if (b == clearbtng) {
+			clear();
 		}
 	}
+	
+	private void clear() {
+		// Clear Canvas
+		brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight());
+		geneticgc.clearRect(0, 0, geneticcanvas.getWidth(), geneticcanvas.getHeight());
+		points.clearPoints();
+		startalgo.setDisable(true);
+		startalgg.setDisable(true);
+		
+		listPoints.clear();
+		pointsList.getItems().clear();
+		pointsList.getSelectionModel().clearSelection();
+		listPoints = FXCollections.observableList(points.getPoints());
+		pointsList.setItems(listPoints);
 
-	public void runBruteForce(Point[] ps) {
+		gPointCount.setText("0");
+		bPointCount.setText("0");
+		bTime.setText("");
+		bD.setText("");
+
+		bDistance.getItems().clear();
+		bDistance.getSelectionModel().clearSelection();
+	}
+
+	private void runBruteForce(Point[] ps) {
 		xFile = new CustomFile("data/xPermutation.txt");
 		yFile = new CustomFile("data/yPermutation.txt");
 		allPoints = new CustomFile("data/points.txt");
-		
+
 		bruteForce = new BruteForce(ps, bPercentage, bTime, bDistance, brutecanvas, bD);
 		thread = new Thread(bruteForce);
 		thread.setName("Brute Force");
