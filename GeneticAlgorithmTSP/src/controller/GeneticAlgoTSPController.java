@@ -15,6 +15,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -49,6 +50,9 @@ public class GeneticAlgoTSPController {
 
 	@FXML
 	Label gPointCount, bPointCount, bPercentage, gPercentage, bTime, gTime, bD, gd;
+	
+	@FXML
+	TextField numberPopulation, numberGeneration;
 
 	@FXML
 	protected void initialize() {
@@ -158,7 +162,8 @@ public class GeneticAlgoTSPController {
 				bruteForce.setStop(true);
 			}
 		} else if (b == startalgg) {			
-			GeneticAlgo ga = new GeneticAlgo(points.getPoints(),100);
+			System.out.println("Inside start algo");
+			GeneticAlgo ga = new GeneticAlgo(points.getPoints(),1000);
 			ga.start();
 			
 		} else if (b == clearbtng) {

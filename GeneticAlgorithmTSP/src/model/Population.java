@@ -11,6 +11,7 @@ public class Population {
 	private List<Point> originalPoints;
 	private int populationSize;
 	private List<Points> population;
+
 	private int generation;
 	
 	public Population( List<Point> points,int size) {
@@ -24,7 +25,7 @@ public class Population {
 		for (int i =0 ; i < populationSize; i++) {			
 			Points  p = new Points();
 			p.addPoint(originalPoints.get(0));
-			List<Point> temp = new ArrayList(originalPoints);
+			List<Point> temp = new ArrayList<Point>(originalPoints);
 			temp.remove(0);
 			Collections.shuffle(temp);
 			p.getPoints().addAll(temp);
@@ -76,7 +77,7 @@ public class Population {
 	public Points mutation(Points child) {
 		Points p = child;
 		if(child.getSize() >= 4) {
-			int index = ((int)Math.floor(0.5 * child.getSize()))-1;
+			int index = ((int)Math.floor(0.3 * child.getSize()))-1;
 			Collections.swap(child.getPoints(), index, index+1);
 		}
 		return p;
@@ -102,24 +103,13 @@ public class Population {
 		population = Arrays.asList(newGeneration);
 		generation++;
 	}
-	
-	public Points bestPoints() {
-		Points points = new Points();
-		points.setDistance(0.0);
-		for(Points pp : population) {
-			if(points.getDistance() == 0.0) {
-				points.setDistance(pp.getDistance());
-				points.setPoints(pp.getPoints());
-			} else if (pp.getDistance() < points.getDistance()) {
-				points.setDistance(pp.getDistance());
-				points.setPoints(pp.getPoints());
-			}
-		}
-		return points;
-	}
-	
+		
 	public int getGeneration() {
 		return generation;
+	}
+	
+	public List<Points> getPopulation() {
+		return population;
 	}
 	
 	public void printPopulationDNA () {

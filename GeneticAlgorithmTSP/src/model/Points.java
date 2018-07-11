@@ -66,10 +66,9 @@ public class Points {
 			}
 		}
 		
-		System.out.println(points);
 		distance = sum;
 		//Sum == 0 -> in case where distance/sum is zero.  
-		fitnessValue = ((double)1/(sum == 0 ? 1 : sum)) * 100;
+		fitnessValue = ((double)1/(sum == 0 ? 1 : sum)) * 500;
 	}
 	
 	public void printFitnessValue () {
