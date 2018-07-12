@@ -161,9 +161,10 @@ public class GeneticAlgoTSPController {
 			if (bruteForce != null) {
 				bruteForce.setStop(true);
 			}
-		} else if (b == startalgg) {			
-			System.out.println("Inside start algo");
-			GeneticAlgo ga = new GeneticAlgo(points.getPoints(),1000);
+		} else if (b == startalgg) {
+			int pop = numberPopulation.getText().equals("") ? 100 : Integer.valueOf(numberPopulation.getText());
+			int gen = numberGeneration.getText().equals("") ? 100 : Integer.valueOf(numberGeneration.getText());
+			GeneticAlgo ga = new GeneticAlgo(points.getPoints(),pop , gen);
 			ga.start();
 			
 		} else if (b == clearbtng) {
@@ -192,6 +193,9 @@ public class GeneticAlgoTSPController {
 
 		bDistance.getItems().clear();
 		bDistance.getSelectionModel().clearSelection();
+		
+		numberPopulation.setText("");
+		numberGeneration.setText("");
 	}
 
 	private void runBruteForce(Point[] ps) {

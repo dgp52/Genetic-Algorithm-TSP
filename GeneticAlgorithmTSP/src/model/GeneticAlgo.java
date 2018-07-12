@@ -7,10 +7,12 @@ public class GeneticAlgo {
 	
 	private Population p;
 	private Points bestPath;
+	private int generation;
 	
-	public GeneticAlgo (List<Point> pp ,int populationSize) {
+	public GeneticAlgo (List<Point> pp ,int populationSize, int gen) {
 		this.p = new Population(pp,populationSize);
 		this.bestPath = new Points();
+		this.generation = gen;
 		bestPath.setDistance(0.0);
 	}
 	
@@ -18,7 +20,7 @@ public class GeneticAlgo {
 		
 		int i = 0;
 		p.createPopulation();
-		while(i < 500) {
+		while(i < generation) {
 			p.calculateFitness();
 			p.printPopulation();
 			bestPath();
