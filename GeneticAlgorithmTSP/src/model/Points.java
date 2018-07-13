@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Points {
@@ -93,5 +94,10 @@ public class Points {
 	
 	public void setPoints(List<Point> points) {
 		this.points = points;
+	}
+	
+	@Override
+	public String toString() {
+		return "(" + points.toString() +") ";
 	}
 }

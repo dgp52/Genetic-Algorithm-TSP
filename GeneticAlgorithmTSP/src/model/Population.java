@@ -1,10 +1,12 @@
 package model;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 public class Population {
 	
@@ -65,7 +67,11 @@ public class Population {
 		}
 		
 		child.addPoint(maxFitnessPoint.getPoints().get(0));
-		
+//		for (int i =  0; i < parents.length; i++) {
+//			System.out.print(parents[0].getFitnessValue() + " ");
+//		}
+//		System.out.println("");
+//		System.out.println("parents: " + Arrays.toString(parents) + " ========= " + child.toString());
 		//System.out.println("hIGHEST : " +  maxFitnessPoint.getFitnessValue() + " : " + maxFitnessPoint + " : " + indexes + " : " +  maxFitnessPoint.getSize());
 		//System.out.println("Child: " + child.getPoints());
 		//System.out.println("Highest: " + maxFitnessPoint.getPoints() + " : " + maxFitnessPoint.getFitnessValue());
@@ -77,8 +83,15 @@ public class Population {
 	public Points mutation(Points child) {
 		Points p = child;
 		if(child.getSize() >= 4) {
-			int index = ((int)Math.floor(0.3 * child.getSize()))-1;
-			Collections.swap(child.getPoints(), index, index+1);
+			//int index = num.nextInt(child.getSize()-1) + 1;	
+			Random num = new Random();
+			int[] randNum = new int[2];
+			for(int i = 0; i < 2; i++) {
+				randNum[i] = num.nextInt(child.getSize()-3) + 1;
+			}
+			//System.out.println(Arrays.toString(randNum));
+			//int index = ((int)Math.floor(0.3 * child.getSize()))-1;
+			Collections.swap(child.getPoints(), randNum[0], randNum[1]);
 		}
 		return p;
 	}
@@ -90,7 +103,9 @@ public class Population {
 			ProbabilityGenerator<Points> pg = new ProbabilityGenerator<>();
 			for(Points pp : population) {
 				pg.addElementProbability(pp, pp.getFitnessValue());
+				//System.out.println(pp.getFitnessValue());
 			}
+			//pg.printCount();
 			Points[] parents = new Points[2];
 			for(int j = 0; j < parents.length; j++) {
 				parents[j] = pg.sumAndPick();

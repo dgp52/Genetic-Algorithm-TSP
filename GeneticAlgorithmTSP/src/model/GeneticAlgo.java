@@ -22,7 +22,7 @@ public class GeneticAlgo {
 		p.createPopulation();
 		while(i < generation) {
 			p.calculateFitness();
-			p.printPopulation();
+			//p.printPopulation();
 			bestPath();
 			printBestPath();
 			//System.out.println(pp.getDistance());
@@ -46,7 +46,7 @@ public class GeneticAlgo {
 	}
 	
 	public void printBestPath () {
-		System.out.println(" Distance: " + bestPath.getDistance());
+		System.out.println(" Distance: " + bestPath.getDistance() + "====" + bestPath.getPoints().toString());
 	}
 	
 
