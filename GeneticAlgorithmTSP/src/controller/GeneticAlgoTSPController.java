@@ -32,8 +32,9 @@ public class GeneticAlgoTSPController {
 	public static final int DRAW_CENTER = 5;
 	private List<Point> p = new ArrayList<>();
 	private ObservableList<Point> listPoints;
-	private Thread thread, genThread;
+	private Thread brutThread, genThread;
 	private BruteForce bruteForce;
+	private GeneticAlgo ga;
 
 	@FXML
 	Canvas brutecanvas, geneticcanvas;
@@ -166,14 +167,12 @@ public class GeneticAlgoTSPController {
 	public void handle(ActionEvent handler) throws IOException, NoSuchAlgorithmException {
 		Button b = (Button) handler.getSource();
 		if (b == startalgo) {
-			// Get all points and convert it to an array of double
 			Point p[] = new Point[points.getSize()];
 			p = points.getPoints().toArray(p);
 			runBruteForce(p);
 		} else if (b == clearbtn) {
 			clear();
-
-			// Stop the thread
+			//Stop brute thread
 			if (bruteForce != null) {
 				bruteForce.setStop(true);
 			}
@@ -181,6 +180,10 @@ public class GeneticAlgoTSPController {
 			runGeneticAlgorithm();			
 		} else if (b == clearbtng) {
 			clear();
+			//Stop genetic thread
+			if(ga != null) {
+				ga.setStop(true);
+			}
 		}
 	}
 	
@@ -203,7 +206,9 @@ public class GeneticAlgoTSPController {
 		bPointCount.setText("0");
 		bTime.setText("");
 		bD.setText("");
-
+		generation.setText("");
+		gd.setText("");
+		
 		bDistance.getItems().clear();
 		bDistance.getSelectionModel().clearSelection();
 		
@@ -216,15 +221,15 @@ public class GeneticAlgoTSPController {
 
 	private void runBruteForce(Point[] ps) {
 		bruteForce = new BruteForce(ps, bPercentage, bTime, bDistance, brutecanvas, bD);
-		thread = new Thread(bruteForce);
-		thread.setName("Brute Force");
-		thread.start();
+		brutThread = new Thread(bruteForce);
+		brutThread.setName("Brute Force");
+		brutThread.start();
 	}
 	
 	private void runGeneticAlgorithm() {
 		int pop = numberPopulation.getText().equals("") ? 100 : Integer.valueOf(numberPopulation.getText());
 		int gen = numberGeneration.getText().equals("") ? 100 : Integer.valueOf(numberGeneration.getText());
-		GeneticAlgo ga = new GeneticAlgo(points.getPoints(),pop , gen, gDistance, geneticcanvas, gd, generation);
+		ga = new GeneticAlgo(points.getPoints(),pop , gen, gDistance, geneticcanvas, gd, generation);
 		genThread = new Thread(ga);
 		genThread.setName("Genetic Algo");
 		genThread.start();

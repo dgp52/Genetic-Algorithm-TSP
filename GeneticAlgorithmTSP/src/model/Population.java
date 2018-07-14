@@ -12,7 +12,6 @@ public class Population {
 	private List<Point> originalPoints;
 	private int populationSize;
 	private List<Points> population;
-
 	private int generation;
 	
 	public Population( List<Point> points,int size) {
@@ -69,7 +68,7 @@ public class Population {
 		return child;
 	}
 	
-	public Points mutation(Points child) {
+	private Points mutation(Points child) {
 		Points p = child;
 		if(child.getSize() >= 4) {
 			Random num = new Random();

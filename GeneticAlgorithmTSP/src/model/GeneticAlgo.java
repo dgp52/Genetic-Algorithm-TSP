@@ -14,7 +14,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.paint.Color;
 
 public class GeneticAlgo implements Runnable {
-	
+
 	private Population p;
 	private Points bestPath;
 	private int generation;
@@ -22,18 +22,19 @@ public class GeneticAlgo implements Runnable {
 	private ObservableList<Point> listPoints;
 	private GraphicsContext gc;
 	public static final int DRAW_CENTER = 5;
-	
+
 	@FXML
 	Label gd, generationL;
-	
+
 	@FXML
 	ListView<Point> gDistance;
-	
+
 	@FXML
 	Canvas gcanvas;
-	
-	public GeneticAlgo (List<Point> pp ,int populationSize, int gen, ListView<Point> listd, Canvas canvas, Label l, Label generation) {
-		this.p = new Population(pp,populationSize);
+
+	public GeneticAlgo(List<Point> pp, int populationSize, int gen, ListView<Point> listd, Canvas canvas, Label l,
+			Label generation) {
+		this.p = new Population(pp, populationSize);
 		this.bestPath = new Points();
 		this.generation = gen;
 		this.gd = l;
@@ -43,11 +44,11 @@ public class GeneticAlgo implements Runnable {
 		this.generationL = generation;
 		bestPath.setDistance(0.0);
 	}
-	
+
 	public void start() {
 		int i = 0;
 		p.createPopulation();
-		while(i < generation) {
+		while (i < generation && !stop) {
 			p.calculateFitness();
 			bestPath();
 			Platform.runLater(new Runnable() {
@@ -59,8 +60,7 @@ public class GeneticAlgo implements Runnable {
 			p.naturalSelection();
 			i++;
 		}
-		
-		
+
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -68,24 +68,24 @@ public class GeneticAlgo implements Runnable {
 				gDistance.setItems(listPoints);
 				gd.setText("Distance: " + bestPath.getDistance());
 				gc.clearRect(0, 0, gcanvas.getWidth(), gcanvas.getHeight());
-			
-				for(int i = 0; i < bestPath.getSize()-1; i++) {
+
+				for (int i = 0; i < bestPath.getSize() - 1; i++) {
 					drawPoint(gc, bestPath.getPoints().get(i), Color.GOLD);
-					drawALine(gc, bestPath.getPoints().get(i+1), bestPath.getPoints().get(i));
+					drawALine(gc, bestPath.getPoints().get(i + 1), bestPath.getPoints().get(i));
 				}
 			}
 		});
-		
+
 		stop = true;
 	}
-	
+
 	private void drawPoint(GraphicsContext gc, Point point, Color c) {
 		gc.setFill(c);
 		gc.setStroke(c);
 		gc.setLineWidth(3);
 		gc.fillOval(point.getX(), point.getY(), 10, 10);
 	}
-	
+
 	public void drawALine(GraphicsContext gc, Point last, Point secondLast) {
 		if (bestPath.getSize() > 1) {
 			Point pLast = last;
@@ -102,10 +102,10 @@ public class GeneticAlgo implements Runnable {
 			gc.strokePolyline(xVal, yVal, 2);
 		}
 	}
-	
+
 	public void bestPath() {
-		for(Points pp : p.getPopulation()) {
-			if(bestPath.getDistance() == 0.0) {
+		for (Points pp : p.getPopulation()) {
+			if (bestPath.getDistance() == 0.0) {
 				bestPath.setDistance(pp.getDistance());
 				bestPath.setPoints(pp.getPoints());
 			} else if (pp.getDistance() < bestPath.getDistance()) {
@@ -114,8 +114,8 @@ public class GeneticAlgo implements Runnable {
 			}
 		}
 	}
-	
-	public void printBestPath () {
+
+	public void printBestPath() {
 		System.out.println(" Distance: " + bestPath.getDistance() + "====" + bestPath.getPoints().toString());
 	}
 
@@ -126,13 +126,11 @@ public class GeneticAlgo implements Runnable {
 	public void setStop(boolean stop) {
 		this.stop = stop;
 	}
-	
+
 	@Override
 	public void run() {
 		while (!stop) {
 			start();
 		}
 	}
-	
-
 }

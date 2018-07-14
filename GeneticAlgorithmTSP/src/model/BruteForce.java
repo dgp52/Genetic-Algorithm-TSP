@@ -78,7 +78,7 @@ public class BruteForce implements Runnable {
 		gc.fillOval(point.getX(), point.getY(), 10, 10);
 	}
 	
-	public void drawALine(GraphicsContext gc, Point last, Point secondLast) {
+	private void drawALine(GraphicsContext gc, Point last, Point secondLast) {
 		if (shortestPath.size() > 1) {
 			Point pLast = last;
 			Point pSecondLast = secondLast;
