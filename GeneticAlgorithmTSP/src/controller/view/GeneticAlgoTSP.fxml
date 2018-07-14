@@ -97,7 +97,6 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <Label alignment="TOP_LEFT" contentDisplay="TOP" text="Genetic Algorithm:" textAlignment="CENTER" textFill="WHITE">
@@ -110,17 +109,12 @@
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="gPercentage" textFill="WHITE" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="gTime" textFill="WHITE" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="gd" textFill="WHITE" GridPane.rowIndex="4">
+                               <Label fx:id="generation" textFill="WHITE" GridPane.rowIndex="2">
+		                           <font>
+		                              <Font size="20.0" />
+		                           </font>
+		                        </Label>
+                              <Label fx:id="gd" textFill="WHITE" GridPane.rowIndex="3">
                                  <font>
                                     <Font size="20.0" />
                                  </font>

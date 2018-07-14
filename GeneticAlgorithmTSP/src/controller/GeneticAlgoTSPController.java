@@ -20,7 +20,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import model.BruteForce;
-import model.CustomFile;
 import model.GeneticAlgo;
 import model.Point;
 import model.Points;
@@ -31,9 +30,8 @@ public class GeneticAlgoTSPController {
 	private GraphicsContext brutegc, geneticgc, brutePointGC;
 	public static final int DRAW_CENTER = 5;
 	private List<Point> p = new ArrayList<>();
-	private CustomFile xFile, yFile, allPoints;
 	private ObservableList<Point> listPoints;
-	private Thread thread;
+	private Thread thread, genThread;
 	private BruteForce bruteForce;
 
 	@FXML
@@ -46,10 +44,10 @@ public class GeneticAlgoTSPController {
 	Button startalgo, clearbtn, startalgg, clearbtng;
 
 	@FXML
-	ListView<Point> pointsList, bDistance;
+	ListView<Point> pointsList, bDistance, gDistance;
 
 	@FXML
-	Label gPointCount, bPointCount, bPercentage, gPercentage, bTime, gTime, bD, gd;
+	Label gPointCount, bPointCount, bPercentage, gPercentage, bTime, gTime, bD, gd, generation;
 	
 	@FXML
 	TextField numberPopulation, numberGeneration;
@@ -162,17 +160,14 @@ public class GeneticAlgoTSPController {
 				bruteForce.setStop(true);
 			}
 		} else if (b == startalgg) {
-			int pop = numberPopulation.getText().equals("") ? 100 : Integer.valueOf(numberPopulation.getText());
-			int gen = numberGeneration.getText().equals("") ? 100 : Integer.valueOf(numberGeneration.getText());
-			GeneticAlgo ga = new GeneticAlgo(points.getPoints(),pop , gen);
-			ga.start();
-			
+			runGeneticAlgorithm();			
 		} else if (b == clearbtng) {
 			clear();
 		}
 	}
 	
 	private void clear() {
+
 		// Clear Canvas
 		brutegc.clearRect(0, 0, brutecanvas.getWidth(), brutecanvas.getHeight());
 		geneticgc.clearRect(0, 0, geneticcanvas.getWidth(), geneticcanvas.getHeight());
@@ -194,18 +189,26 @@ public class GeneticAlgoTSPController {
 		bDistance.getItems().clear();
 		bDistance.getSelectionModel().clearSelection();
 		
+		gDistance.getItems().clear();
+		gDistance.getSelectionModel().clearSelection();
+		
 		numberPopulation.setText("");
 		numberGeneration.setText("");
 	}
 
 	private void runBruteForce(Point[] ps) {
-		xFile = new CustomFile("data/xPermutation.txt");
-		yFile = new CustomFile("data/yPermutation.txt");
-		allPoints = new CustomFile("data/points.txt");
-
 		bruteForce = new BruteForce(ps, bPercentage, bTime, bDistance, brutecanvas, bD);
 		thread = new Thread(bruteForce);
 		thread.setName("Brute Force");
 		thread.start();
+	}
+	
+	private void runGeneticAlgorithm() {
+		int pop = numberPopulation.getText().equals("") ? 100 : Integer.valueOf(numberPopulation.getText());
+		int gen = numberGeneration.getText().equals("") ? 100 : Integer.valueOf(numberGeneration.getText());
+		GeneticAlgo ga = new GeneticAlgo(points.getPoints(),pop , gen, gDistance, geneticcanvas, gd, generation);
+		genThread = new Thread(ga);
+		genThread.setName("Genetic Algo");
+		genThread.start();
 	}
 }
