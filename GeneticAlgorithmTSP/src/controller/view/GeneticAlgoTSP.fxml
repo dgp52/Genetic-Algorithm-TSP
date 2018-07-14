@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -135,11 +136,11 @@
       </GridPane>
    </center>
    <bottom>
-      <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
+      <GridPane BorderPane.alignment="TOP_LEFT">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -168,11 +169,16 @@
             <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1">
               <buttons>
                 <Button fx:id="clearbtng" mnemonicParsing="false" onAction="#handle" text="G-Clear" />
-                  <Button fx:id="startalgg" mnemonicParsing="false" onAction="#handle" text="G-Start" />
+                  <Button fx:id="startalgg"  disable="true" mnemonicParsing="false" onAction="#handle" text="G-Start" />
                   <TextField fx:id="numberPopulation" promptText="population" />
                   <TextField fx:id="numberGeneration" promptText="Generation" />
               </buttons>
             </ButtonBar>
+            <TextArea fx:id="notes" prefHeight="200.0" prefWidth="200.0" text="" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextArea>
          </children>
       </GridPane>
    </bottom>

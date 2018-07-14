@@ -15,6 +15,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -51,9 +52,13 @@ public class GeneticAlgoTSPController {
 	
 	@FXML
 	TextField numberPopulation, numberGeneration;
+	
+	@FXML
+	TextArea notes;
 
 	@FXML
 	protected void initialize() {
+		addUserNotes();
 		resizeCanvasToParent();
 		initializePoints();
 		initializeGraphicsContext();
@@ -88,6 +93,19 @@ public class GeneticAlgoTSPController {
 				drawALine(geneticgc);
 			}
 		});
+	}
+	
+	private void addUserNotes() {
+		String note = "Notes: \n"
+				+ "1: Draw your points using left Canvas. (Brute Force Algorithm) \n"
+				+ "2: Start buttons will only get enabled if there are 2 or more points. \n"
+				+ "3: To clear the canvas use clear buttons. \n"
+				+ "4: Brute Force - Number of points, shortest distance, percentage completed and time in seconds. \n"
+				+ "5: Genetic Algorithm - Number of Points, Shortest distance, and generation. \n"
+				+ "6: By default genetic algorithm has 100 population and 100 generations. To increase/decrease these value, one can change two input fields provided.\n"
+				+ "7: Shortest path is displayed on the bottom listviews. \n"
+				+ "8: All Points are displayed on the right listview panel.";
+		notes.setText(note);
 	}
 
 	private void initializePoints() {
