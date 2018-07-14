@@ -26,14 +26,15 @@ public class BruteForce implements Runnable {
 
 	@FXML
 	Label bPercentage, bTime, bd;
-	
+
 	@FXML
 	ListView<Point> bDistance;
-	
+
 	@FXML
 	Canvas canvas;
 
-	public BruteForce(Point[] points, Label label, Label btime, ListView<Point> bDistance, Canvas brutecanvas, Label bd) {
+	public BruteForce(Point[] points, Label label, Label btime, ListView<Point> bDistance, Canvas brutecanvas,
+			Label bd) {
 		this.points = points;
 		this.counter = counter(points.length);
 		this.shortestPath = new ArrayList<Point>();
@@ -45,13 +46,14 @@ public class BruteForce implements Runnable {
 		this.bd = bd;
 	}
 
+	// region bruteforce
 	public void start() {
 		long startTime = System.nanoTime();
 		this.calculatePermutations(points, p);
 		long endTime = System.nanoTime();
 		long elapsedTime = endTime - startTime;
-		double seconds = (double)elapsedTime/1000000000.0;
-		
+		double seconds = (double) elapsedTime / 1000000000.0;
+
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -60,24 +62,26 @@ public class BruteForce implements Runnable {
 				bDistance.setItems(listPoints);
 				bd.setText("Distance: " + shortestDistance);
 				brutegc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-			
-				for(int i = 0; i < shortestPath.size()-1; i++) {
+
+				for (int i = 0; i < shortestPath.size() - 1; i++) {
 					drawBrute(brutegc, shortestPath.get(i), Color.GOLD);
-					drawALine(brutegc, shortestPath.get(i+1), shortestPath.get(i));
+					drawALine(brutegc, shortestPath.get(i + 1), shortestPath.get(i));
 				}
 			}
 		});
-		
+
 		stop = true;
 	}
-	
+	// endregion
+
+	// region helper methods
 	private void drawBrute(GraphicsContext gc, Point point, Color c) {
 		gc.setFill(c);
 		gc.setStroke(c);
 		gc.setLineWidth(3);
 		gc.fillOval(point.getX(), point.getY(), 10, 10);
 	}
-	
+
 	private void drawALine(GraphicsContext gc, Point last, Point secondLast) {
 		if (shortestPath.size() > 1) {
 			Point pLast = last;
@@ -146,7 +150,7 @@ public class BruteForce implements Runnable {
 				shortestDistance = tempDistance;
 				shortestPath = (ArrayList<Point>) individualPermutation.clone();
 			}
-			
+
 			individualPermutation.clear();
 			return;
 		}
@@ -166,21 +170,13 @@ public class BruteForce implements Runnable {
 		}
 	}
 
-	public boolean getStop() {
-		return stop;
-	}
-
-	public void setStop(boolean stop) {
-		this.stop = stop;
-	}
-
 	@Override
 	public void run() {
 		while (!stop) {
 			start();
 		}
-		
-		if(stop) {
+
+		if (stop) {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
@@ -189,4 +185,17 @@ public class BruteForce implements Runnable {
 			});
 		}
 	}
+	// enregion
+
+	// region getters
+	public boolean getStop() {
+		return stop;
+	}
+	// endregion
+
+	// region setters
+	public void setStop(boolean stop) {
+		this.stop = stop;
+	}
+	// endregion
 }

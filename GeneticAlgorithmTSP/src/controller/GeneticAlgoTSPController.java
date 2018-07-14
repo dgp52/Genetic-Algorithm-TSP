@@ -50,10 +50,10 @@ public class GeneticAlgoTSPController {
 
 	@FXML
 	Label gPointCount, bPointCount, bPercentage, gPercentage, bTime, gTime, bD, gd, generation;
-	
+
 	@FXML
 	TextField numberPopulation, numberGeneration;
-	
+
 	@FXML
 	TextArea notes;
 
@@ -95,10 +95,10 @@ public class GeneticAlgoTSPController {
 			}
 		});
 	}
-	
+
+	// region Notes
 	private void addUserNotes() {
-		String note = "Notes: \n"
-				+ "1: Draw your points using left Canvas. (Brute Force Algorithm) \n"
+		String note = "Notes: \n" + "1: Draw your points using left Canvas. (Brute Force Algorithm) \n"
 				+ "2: Start buttons will only get enabled if there are 2 or more points. \n"
 				+ "3: To clear the canvas use clear buttons. \n"
 				+ "4: Brute Force - Number of points, shortest distance, percentage completed and time in seconds. \n"
@@ -108,7 +108,34 @@ public class GeneticAlgoTSPController {
 				+ "8: All Points are displayed on the right listview panel.";
 		notes.setText(note);
 	}
+	// endregion
 
+	// region event handler
+	public void handle(ActionEvent handler) throws IOException, NoSuchAlgorithmException {
+		Button b = (Button) handler.getSource();
+		if (b == startalgo) {
+			Point p[] = new Point[points.getSize()];
+			p = points.getPoints().toArray(p);
+			runBruteForce(p);
+		} else if (b == clearbtn) {
+			clear();
+			// Stop brute thread
+			if (bruteForce != null) {
+				bruteForce.setStop(true);
+			}
+		} else if (b == startalgg) {
+			runGeneticAlgorithm();
+		} else if (b == clearbtng) {
+			clear();
+			// Stop genetic thread
+			if (ga != null) {
+				ga.setStop(true);
+			}
+		}
+	}
+	// endregion
+
+	// region helper methods
 	private void initializePoints() {
 		points = new Points();
 	}
@@ -164,29 +191,6 @@ public class GeneticAlgoTSPController {
 		}
 	}
 
-	public void handle(ActionEvent handler) throws IOException, NoSuchAlgorithmException {
-		Button b = (Button) handler.getSource();
-		if (b == startalgo) {
-			Point p[] = new Point[points.getSize()];
-			p = points.getPoints().toArray(p);
-			runBruteForce(p);
-		} else if (b == clearbtn) {
-			clear();
-			//Stop brute thread
-			if (bruteForce != null) {
-				bruteForce.setStop(true);
-			}
-		} else if (b == startalgg) {
-			runGeneticAlgorithm();			
-		} else if (b == clearbtng) {
-			clear();
-			//Stop genetic thread
-			if(ga != null) {
-				ga.setStop(true);
-			}
-		}
-	}
-	
 	private void clear() {
 
 		// Clear Canvas
@@ -195,7 +199,7 @@ public class GeneticAlgoTSPController {
 		points.clearPoints();
 		startalgo.setDisable(true);
 		startalgg.setDisable(true);
-		
+
 		listPoints.clear();
 		pointsList.getItems().clear();
 		pointsList.getSelectionModel().clearSelection();
@@ -208,13 +212,13 @@ public class GeneticAlgoTSPController {
 		bD.setText("");
 		generation.setText("");
 		gd.setText("");
-		
+
 		bDistance.getItems().clear();
 		bDistance.getSelectionModel().clearSelection();
-		
+
 		gDistance.getItems().clear();
 		gDistance.getSelectionModel().clearSelection();
-		
+
 		numberPopulation.setText("");
 		numberGeneration.setText("");
 	}
@@ -225,13 +229,16 @@ public class GeneticAlgoTSPController {
 		brutThread.setName("Brute Force");
 		brutThread.start();
 	}
-	
+
 	private void runGeneticAlgorithm() {
 		int pop = numberPopulation.getText().equals("") ? 100 : Integer.valueOf(numberPopulation.getText());
 		int gen = numberGeneration.getText().equals("") ? 100 : Integer.valueOf(numberGeneration.getText());
-		ga = new GeneticAlgo(points.getPoints(),pop , gen, gDistance, geneticcanvas, gd, generation);
+		ga = new GeneticAlgo(points.getPoints(), pop, gen, gDistance, geneticcanvas, gd, generation);
 		genThread = new Thread(ga);
 		genThread.setName("Genetic Algo");
 		genThread.start();
 	}
+
+	// endregion
+
 }

@@ -45,6 +45,7 @@ public class GeneticAlgo implements Runnable {
 		bestPath.setDistance(0.0);
 	}
 
+	// region genetic algorithm
 	public void start() {
 		int i = 0;
 		p.createPopulation();
@@ -78,7 +79,9 @@ public class GeneticAlgo implements Runnable {
 
 		stop = true;
 	}
+	// endregion
 
+	// region helper methods
 	private void drawPoint(GraphicsContext gc, Point point, Color c) {
 		gc.setFill(c);
 		gc.setStroke(c);
@@ -115,22 +118,29 @@ public class GeneticAlgo implements Runnable {
 		}
 	}
 
-	public void printBestPath() {
-		System.out.println(" Distance: " + bestPath.getDistance() + "====" + bestPath.getPoints().toString());
-	}
-
-	public boolean getStop() {
-		return stop;
-	}
-
-	public void setStop(boolean stop) {
-		this.stop = stop;
-	}
-
 	@Override
 	public void run() {
 		while (!stop) {
 			start();
 		}
 	}
+	// endregion
+
+	// region print
+	public void printBestPath() {
+		System.out.println(" Distance: " + bestPath.getDistance() + "====" + bestPath.getPoints().toString());
+	}
+	// endregion
+
+	// region setters
+	public void setStop(boolean stop) {
+		this.stop = stop;
+	}
+	// endregion
+
+	// region getters
+	public boolean getStop() {
+		return stop;
+	}
+	// endregion
 }

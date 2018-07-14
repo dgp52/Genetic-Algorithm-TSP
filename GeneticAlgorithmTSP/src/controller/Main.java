@@ -7,7 +7,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Main extends Application{
+public class Main extends Application {
 
 	/**
 	 * primary stag
@@ -16,7 +16,7 @@ public class Main extends Application{
 
 	@Override
 	public void start(Stage primaryStage) {
-	    Main.primaryStage = primaryStage;
+		Main.primaryStage = primaryStage;
 		try {
 			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("view/GeneticAlgoTSP.fxml"));
 			Scene scene = new Scene(root);
@@ -32,7 +32,8 @@ public class Main extends Application{
 	}
 
 	/**
-	 * @param args String
+	 * @param args
+	 *            String
 	 */
 	public static void main(String[] args) {
 		launch(args);
